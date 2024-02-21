@@ -21,9 +21,14 @@ async def get_note(token):
                 print("")
                 return
             try:
-                recv_text = json.loads(await websocket.recv())["body"]["body"]["text"]
+                #recv_text = json.loads(await websocket.recv())["body"]["body"]["text"]
+                recv = await asyncio.wait_for(websocket.recv(), timeout=3)
+                recv_text = json.loads(recv)["body"]["body"]["text"]
             except ValueError:
                 continue
+            except asyncio.TimeoutError:
+                #長いので再接続
+                return
             if recv_text != None:
                 if len(recv_text) <= 140:
                     if not stop:
