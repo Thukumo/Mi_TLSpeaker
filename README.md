@@ -3,7 +3,7 @@
 Misskey.ioのローカルタイムラインを琴葉葵ちゃんに読み上げてもらうPythonスクリプト<br>
 現在はA.I.VOICEのみの対応ですが、そのうちVOICEVOXに対応する...かも
 # 導入
-まずはこのリポジトリのディレクトリでターミナルを開いてください。
+まず、このリポジトリをクローンしたディレクトリでターミナルを開いてください。
 ```
 pip install -r requirements.txt
 python get_misskey_APIKey.py
