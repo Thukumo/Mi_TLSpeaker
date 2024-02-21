@@ -1,0 +1,2 @@
+# Mi_TLSpeaker
+Misskey.ioのローカルタイムラインを琴葉葵ちゃんに読み上げてもらうPythonスクリプト
