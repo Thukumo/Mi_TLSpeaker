@@ -87,5 +87,5 @@ while not stop:
         asyncio.get_event_loop().run_until_complete(get_note(token))
     except websockets.exceptions.ConnectionClosedError:
         print("!接続が切れました。再接続します。")
-        yomiage.speak("接続が切れたから再接続するよ。")
+        #yomiage.speak("接続が切れたから再接続するよ。")
     timestart = time.perf_counter()
