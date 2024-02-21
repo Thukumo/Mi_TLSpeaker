@@ -9,6 +9,7 @@ Python.Runtime.PyObjectConversions.RegisterDecoder(Python.Runtime.Codecs.EnumPyI
 _editor_dir = os.environ["ProgramW6432"]+"\\AI\\AIVoice\\AIVoiceEditor\\"
 if not os.path.isfile(_editor_dir+"AI.Talk.Editor.Api.dll"):
     print(_editor_dir+"AI.Talk.Editor.Api.dllが見つかりません。")
+    print("A.I.VOICEがインストールされているか確認してください。")
     exit()
 connecting = False
 clr.AddReference(_editor_dir+"AI.Talk.Editor.Api")
