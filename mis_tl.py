@@ -1,5 +1,4 @@
-import asyncio, json, websockets, yomiage, signal, os, time
-
+import asyncio, json, websockets, yomiage, signal, os, time, unicodedata
 
 async def get_note(token):
     global stop, timestart
@@ -22,7 +21,7 @@ async def get_note(token):
                 print("")
                 return
             try:
-                recv_text = json.loads(await asyncio.wait_for(websocket.recv(), timeout=3))["body"]["body"]["text"].replace("https://", "").replace("http://", "")
+                recv_text = unicodedata.normalize("NFKC", json.loads(await asyncio.wait_for(websocket.recv(), timeout=3))["body"]["body"]["text"].replace("https://", "").replace("http://", ""))
             except AttributeError:
                 continue
             except asyncio.TimeoutError:
