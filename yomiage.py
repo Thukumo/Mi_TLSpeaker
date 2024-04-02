@@ -59,6 +59,8 @@ def set_mc(name, value):
     return
 
 def speak(text, reconnect=True):
+    if text == "":
+        return
     global connecting, tts_control
     if tts_control.Status == HostStatus.NotConnected or connecting == False:
         connecting = False

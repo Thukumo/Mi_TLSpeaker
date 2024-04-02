@@ -1,6 +1,13 @@
 import requests, json, uuid, webbrowser
 from time import sleep
 
+try:
+    hoge = json.load(open("token.json"))
+    if hoge["token"] != "":
+        print("トークンがすでに存在します。")
+        print("終了後に古いアクセストークンを削除してください。")
+except FileNotFoundError:
+    pass
 #まだ未完成(権限が)
 #めも　みすきーのよくわからんやつ aWZkjwCivskarMbigKpCxY4C9I1jLBqY
 session_id = str(uuid.uuid4())

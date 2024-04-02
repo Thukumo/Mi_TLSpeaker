@@ -1,5 +1,6 @@
 import asyncio, json, websockets, yomiage, signal, os, time
 
+
 async def get_note(token):
     global stop, timestart
     async with websockets.connect(r"wss://misskey.io/streaming?i="+token) as websocket:
@@ -21,24 +22,25 @@ async def get_note(token):
                 print("")
                 return
             try:
-                #recv_text = json.loads(await websocket.recv())["body"]["body"]["text"]
-                recv = await asyncio.wait_for(websocket.recv(), timeout=3)
-                recv_text = json.loads(recv)["body"]["body"]["text"]
-            except ValueError:
+                recv_text = json.loads(await asyncio.wait_for(websocket.recv(), timeout=3))["body"]["body"]["text"].replace("https://", "").replace("http://", "")
+            except AttributeError:
                 continue
             except asyncio.TimeoutError:
-                #長いので再接続
                 return
-            if recv_text != None:
-                if len(recv_text) <= 140:
-                    if not stop:
-                        print(recv_text)
-                        try:
-                            yomiage.speak(recv_text)
-                        except:
-                            break
-                    else:
-                        return
+            if num := len(recv_text) <= 140:
+                yomiage.set_mc("Speed", 1.44)
+            elif num <= 240:
+                recv_text = ""
+            else:
+                yomiage.set_mc("Speed", 1.5*len(recv_text)/140)
+            if not stop:
+                print(recv_text, end="\n\n")
+                try:
+                    yomiage.speak(recv_text)
+                except:
+                    break
+            else:
+                return
 
 def exitter(hoge, fuga):
     global stop
@@ -50,7 +52,6 @@ def exitter(hoge, fuga):
     print("終了しました。")
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     os._exit(0)
-
 
 stop = False
 try:
@@ -88,4 +89,8 @@ while not stop:
     except websockets.exceptions.ConnectionClosedError:
         print("!接続が切れました。再接続します。")
         #yomiage.speak("接続が切れたから再接続するよ。")
+    except asyncio.exceptions.TimeoutError:
+        print("!接続に失敗しました。終了します。")
+        print("!インターネット接続等を確認してください。VPNを使用しているとwebhookへの接続に失敗することがあります。")
+        exitter(None, None)
     timestart = time.perf_counter()
